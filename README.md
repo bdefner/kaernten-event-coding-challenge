@@ -1,1 +1,1 @@
-# kaernten-event-coding-challenge
+# Kärnten Events - Coding Challenge
