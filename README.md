@@ -1,0 +1,1 @@
+# kaernten-event-coding-challenge
