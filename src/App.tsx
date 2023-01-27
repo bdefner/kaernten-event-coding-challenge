@@ -1,6 +1,8 @@
+import '../styles/globalStyles.css';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Link, Outlet, Route, Routes, useParams } from 'react-router-dom';
+import Header from './components/Header';
 
 const PersonPage = () => {
   const params = useParams();
@@ -55,18 +57,10 @@ export default function App() {
 
 function Layout() {
   return (
-    <div>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-        </ul>
-      </nav>
-
-      <hr />
+    <>
+      <Header />
       <Outlet />
-    </div>
+    </>
   );
 }
 
