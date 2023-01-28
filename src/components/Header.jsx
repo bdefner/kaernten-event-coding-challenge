@@ -10,7 +10,10 @@ export default function Header(props) {
       <div className="nav-container">
         <div className="nav-wrap">
           <Link to="/" className="text-logo-wrap">
-            <span>Kärnten</span>Events
+            <span style={{ fontFamily: 'Gunny Rewritten', fontSize: '28px' }}>
+              Kärnten
+            </span>
+            Events
           </Link>
           <nav>
             <ul>

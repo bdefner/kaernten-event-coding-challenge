@@ -20,6 +20,7 @@
   overflow: hidden;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .button > p {
@@ -31,9 +32,44 @@
   background-color: var(--blue);
   color: white;
   height: max-content;
+  transition: all 0.5s ease;
 }
 
 .icon {
   width: 16px;
   height: 16px;
+}
+
+/* Hero  */
+
+.hero-span {
+  font-size: 148px;
+  font-family: 'Gunny Rewritten';
+  margin: '0px';
+  letter-spacing: '-0.025em';
+  transition: all 0.3s ease;
+}
+
+.hero-text {
+  font-size: 48px;
+  font-weight: 300;
+  margin: 0px;
+  transition: all 0.3s ease;
+}
+
+.kaernten-logo {
+  position: absolute;
+  right: var(--margin-medium);
+  top: 25%;
+  height: 90px;
+}
+
+@media only screen and (max-width: 1024px) {
+  .hero-span {
+    font-size: 90px;
+  }
+
+  .hero-text {
+    font-size: 28px;
+  }
 }
