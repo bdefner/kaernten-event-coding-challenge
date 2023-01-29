@@ -1,7 +1,8 @@
 :root {
   --blue: #0072b5;
+  --blue-smoke: rgba(0, 114, 181, 0.15);
   --black: #222;
-  --green: #78BE205;
+  --green: #78be20;
   --grey: rgba(51, 51, 51, 0.5);
   --margin-tiny: 10px;
   --margin-small: 40px;
@@ -11,16 +12,28 @@
   --padding-small: 15px;
   --padding-medium: 30px;
   --border-radius: 12px;
+  --font-small: 12px;
+  --font-main: 16px;
+  --font-bigger: 24px;
+  --font-biggest: 26px;
+  --box-shadow: 0px 0px 15px 0px rgba(51, 51, 51, 1);
 }
 
 .button {
-  padding: var(--padding-tiny) var(--padding-small) var(--padding-tiny)
-    var(--padding-small);
+  margin-right: var(--margin-tiny);
+  padding: 3px 15px 3px 15px;
   border-radius: var(--border-radius);
   overflow: hidden;
   display: flex;
   align-items: center;
   cursor: pointer;
+  width: max-content;
+  font-size: var(--font-small);
+}
+
+.button > span {
+  margin-right: 5px;
+  font-weight: 600;
 }
 
 .button > p {
@@ -29,15 +42,67 @@
 }
 
 .searchButton {
+  padding: 3px 15px 3px 15px;
   background-color: var(--blue);
   color: white;
   height: max-content;
   transition: all 0.5s ease;
 }
 
+.searchButton:hover {
+  padding: 3px var(--padding-small) 3px var(--padding-small);
+}
+
+.bluePrimary {
+  border: solid 1px;
+  border-color: var(--blue);
+  background-color: var(--blue);
+  color: white;
+  transition: all 0.5s ease;
+}
+
+.greenPrimary {
+  border: solid 1px;
+  border-color: var(--green);
+  background-color: var(--green);
+  color: white;
+  transition: all 0.5s ease;
+}
+
+.greenSecondary {
+  border: solid 1px;
+  border-color: var(--green);
+  color: var(--green);
+  transition: all 0.5s ease;
+}
+
+.greenSecondary:hover {
+  background-color: var(--green);
+  color: white;
+}
+
+.blueSecondary {
+  border: solid 1px;
+  border-color: var(--blue);
+  color: var(--blue);
+  transition: all 0.5s ease;
+}
+
+.blueSecondary:hover {
+  background-color: var(--blue);
+  color: white;
+}
+
+.iconLink {
+  display: flex;
+  align-items: center;
+  color: var(--blue);
+}
+
 .icon {
   width: 16px;
   height: 16px;
+  margin: 3px;
 }
 
 /* Hero  */
@@ -72,4 +137,52 @@
   .hero-text {
     font-size: 28px;
   }
+}
+
+/* Event List Item */
+
+.event-list-item-element {
+  margin: auto;
+  width: 900px;
+  padding: var(--padding-medium);
+  display: flex;
+  align-items: flex-start;
+  transition: all 0.5s ease;
+}
+
+.event-list-item-element:hover .event-list-image-wrap {
+  box-shadow: var(--box-shadow);
+}
+
+.event-list-image-wrap {
+  min-width: 200px;
+  max-width: 200px;
+  margin-right: var(--margin-medium);
+  overflow: hidden;
+  border-radius: var(--border-radius);
+  display: flex;
+}
+
+.event-list-image-wrap img {
+  width: 100%;
+}
+
+.event-list-item-content-wrap h3 {
+  margin-top: 0px;
+  font-weight: 500;
+}
+
+.event-list-item-content-wrap .button {
+  margin-top: var(--margin-small);
+}
+
+.event-list-item-date-wrap {
+  display: flex;
+  align-items: center;
+  margin-right: var(--margin-small);
+  font-size: var(--font-small);
+}
+
+.event-list-item-date-wrap .icon {
+  margin-right: var(--margin-tiny);
 }

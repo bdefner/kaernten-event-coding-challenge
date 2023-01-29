@@ -31,9 +31,26 @@ body {
   text-shadow: 0px 0px 15px #333;
 }
 
+.flex-row-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.margin-top-bottom {
+  margin-top: var(--margin-medium);
+  margin-bottom: var(--margin-large);
+}
+
 .darken-image {
   filter: brightness(75%);
 }
+
+.container {
+  max-width: 1240px;
+  margin: auto;
+}
+
 /* Header  */
 
 .header-wrap {
@@ -96,4 +113,8 @@ body {
   justify-content: center;
   align-items: center;
   overflow: hidden;
+}
+
+.event-list-wrap {
+  display: box;
 }
