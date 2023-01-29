@@ -5,7 +5,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Link, Outlet, Route, Routes, useParams } from 'react-router-dom';
 import Header from './components/Header';
-import Event from './pages/Event';
+import EventPage from './pages/EventPage';
 import Home from './pages/Home';
 
 export default function App() {
@@ -14,7 +14,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="event/:Id" element={<Event />} />
+          <Route path="event/:Id" element={<EventPage />} />
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes>

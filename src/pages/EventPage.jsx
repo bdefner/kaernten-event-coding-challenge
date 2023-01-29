@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import LoadingAnimation from '../components/LoadingAnimation';
 
-export default function Event(props) {
+export default function EventPage(props) {
   const params = useParams();
 
   console.log('params.Id: ', params.Id);

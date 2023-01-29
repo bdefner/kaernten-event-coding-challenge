@@ -1,5 +1,6 @@
 import moment from 'moment-timezone';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import iconCalendar from '../../public/icons/calendar.png';
 import iconPin from '../../public/icons/pin.png';
 import Button from './Button';
@@ -96,12 +97,14 @@ export default function EventListItem(props) {
           {/* onClick={() => history.push(`/event/${props.title}`)} */}
           {!isCollapsed && (
             <div>
-              <Button
-                type="iconLink"
-                iconType="open"
-                span={''}
-                text={'als Seite öffnen'}
-              />
+              <Link to={`/event/${props.slug}`}>
+                <Button
+                  type="iconLink"
+                  iconType="open"
+                  span={''}
+                  text={'als Seite öffnen'}
+                />
+              </Link>
             </div>
           )}
         </div>

@@ -40,6 +40,7 @@ const ScrollingList = ({ items }) => {
             startDate={'2023-01-28T20:00:00.000+01:00'}
             endDate={'2023-01-28T20:00:00.000+01:00'}
             description={item.description}
+            slug={item['dc:slug']}
           />
         </div>
       ))}
