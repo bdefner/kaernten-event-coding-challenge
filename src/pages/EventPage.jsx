@@ -1,42 +1,91 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import LoadingAnimation from '../components/LoadingAnimation';
 
 export default function EventPage(props) {
-  const params = useParams();
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const id = query.get('id');
+  const token = query.get('token');
 
-  console.log('params.Id: ', params.Id);
+  console.log('id: ', id);
+  console.log('token: ', token);
 
   const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState();
+  const [eventData, setEventData] = useState();
+  const [imageData, setImageData] = useState({});
+  const [endpointForEventData, setEndpointForEventData] = useState(
+    `https://data.carinthia.com/api/v4/universal/${id}?token=${token}`,
+  );
+  const [endpointForImageData, setEndpointForImageData] = useState('');
+
+  // // const Endpoint = `https://data.carinthia.com/api/v4/universal/${props.id}token=${props.token}`;
+  // const endpointForEventData = `https://data.carinthia.com/api/v4/universal/${id}?token=${token}`;
 
   useEffect(() => {
-    fetch(`https://swapi.dev/api/people/${params.Id}`, {})
-      .then((res) => res.json())
+    setIsLoading(true);
+    fetch(endpointForEventData, {})
+      .then((response) => response.json())
       .then((response) => {
-        setData(response);
+        setEventData(response);
         setIsLoading(false);
-        console.log(`https://swapi.dev/api/people/${params.Id}`);
       })
       .catch((error) => console.log(error));
-  }, [params.Id]);
+  }, [endpointForEventData]);
+
+  useEffect(() => {
+    if (eventData) {
+      console.log('eventData', eventData);
+      const imageId = 'cc8980ee-d067-4c4c-97ac-cf4e01e2037e';
+      setEndpointForImageData(
+        `https://data.carinthia.com/api/v4/universal/${imageId}?token=${token}`,
+      );
+      fetch(endpointForImageData, {})
+        .then((response) => response.json())
+        .then((response) => {
+          setImageData(response);
+        })
+        .then(() => {
+          console.log('imageData', imageData);
+        });
+    }
+  }, [eventData]);
 
   return (
     <>
       {isLoading ? (
         <LoadingAnimation />
       ) : (
-        <>
-          <h1>Name: {data.name}</h1>
-          <h2>Height: {data.height}</h2>
-          <h2>Mass: {data.mass}</h2>
-          <h2>Hair Color: {data.hair_color}</h2>
-          <h2>Skin Color: {data.skin_color}</h2>
-          <h2>Eye Color: {data.eye_color}</h2>
-          <h2>Birth Year: {data.birth_year}</h2>
-          <h2>Gender: {data.gender}</h2>
+        <div className="event-container" style={{ width: '100%' }}>
+          <div
+            className="event-page-content-wrap"
+            style={{ display: 'flex', position: 'relative' }}
+          >
+            <div className="sticky">
+              {imageData &&
+                imageData['@graph'] &&
+                imageData['@graph'][0] &&
+                imageData['@graph'][0].contentUrl && (
+                  <div className="image-wrap-event-page">
+                    <img
+                      src={imageData['@graph'][0].contentUrl}
+                      alt={imageData['@graph'][0].name}
+                    />
+                  </div>
+                )}
+            </div>
+            <div>
+              <div
+                className="event-page-description-wrap"
+                dangerouslySetInnerHTML={{
+                  __html: eventData['@graph'][0].description,
+                }}
+              ></div>
+            </div>
+          </div>
+
           <Link to="/">Back to homepage</Link>
-        </>
+        </div>
       )}
     </>
   );

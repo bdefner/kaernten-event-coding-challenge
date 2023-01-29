@@ -55,6 +55,8 @@ export default function EventListItem(props) {
   const endDate = convertDateString(props.endDate);
   const [isCollapsed, setIsCollapsed] = useState(true);
 
+  const id = 'a11762cc-a896-47db-b344-83fa329cd6c4';
+
   return (
     <div className="event-list-item-element">
       <div className="event-list-image-wrap">
@@ -94,10 +96,12 @@ export default function EventListItem(props) {
               />
             </div>
           )}
-          {/* onClick={() => history.push(`/event/${props.title}`)} */}
           {!isCollapsed && (
             <div>
-              <Link to={`/event/${props.slug}`}>
+              {/* -> !!!Attention!!! This has to be improved!! I did this as a quick fix, assuming that the token is unproblematic to be exposed in the the URL, which might not be the case! Also, the URL is terrible to read. A better sollution might be using the UseContext Hook. But, from the way I build the component structure, I realized that this would need some rebuild in order to make it work, even if the URL get's accessed directly. Since this takes time, I temporarly go with this solution  */}
+              <Link
+                to={`/event/${props.slug}?id=${props.id}&token=${props.token}`}
+              >
                 <Button
                   type="iconLink"
                   iconType="open"
@@ -110,7 +114,10 @@ export default function EventListItem(props) {
         </div>
 
         {!isCollapsed && (
-          <div dangerouslySetInnerHTML={{ __html: props.description }} />
+          <div
+            dangerouslySetInnerHTML={{ __html: props.description }}
+            className="event-list-content-wrap"
+          />
         )}
       </div>
     </div>

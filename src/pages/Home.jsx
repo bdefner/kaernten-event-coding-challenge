@@ -5,7 +5,7 @@ import EventListItem from '../components/EventListItem';
 import Hero from '../components/Hero';
 import LoadingAnimation from '../components/LoadingAnimation';
 
-const ScrollingList = ({ items }) => {
+const ScrollingList = ({ items, token }) => {
   const [visibleItems, setVisibleItems] = useState(items.slice(0, 10));
 
   useEffect(() => {
@@ -34,6 +34,7 @@ const ScrollingList = ({ items }) => {
       {visibleItems.map((item, index) => (
         <div key={index}>
           <EventListItem
+            id={item['@id']}
             title={item.name}
             thumbnailUrl={item.image[0].thumbnailUrl}
             caption={item.image[0].caption}
@@ -41,6 +42,7 @@ const ScrollingList = ({ items }) => {
             endDate={'2023-01-28T20:00:00.000+01:00'}
             description={item.description}
             slug={item['dc:slug']}
+            token={token}
           />
         </div>
       ))}
@@ -55,6 +57,7 @@ export default function Home(props) {
     'https://data.carinthia.com/api/v4/endpoints/557ea81f-6d65-6476-9e01-d196112514d2?include=image&token=9962098a5f6c6ae8d16ad5aba95afee0',
   );
 
+  const token = '9962098a5f6c6ae8d16ad5aba95afee0';
   function loadNewDataAndScrollToTop(prevOrNext) {
     if (eventData && eventData.links[prevOrNext]) {
       setEventData(null);
@@ -66,7 +69,7 @@ export default function Home(props) {
       );
     }
     window.scrollTo({
-      top: document.getElementById('top-of-scroll-list').offsetTop,
+      top: document.getElementById('top').offsetTop,
       behavior: 'smooth',
     });
   }
@@ -90,6 +93,15 @@ export default function Home(props) {
         slogan="Da ist was los!"
         text="Alle Events in Kärnten auf einen Blick"
       />
+      <div className="slogan-wrap" id="top">
+        <p className="slogan">
+          <span>{`Es gibt immer `}</span>was zu erleben!
+        </p>
+        <p className="slogan">
+          Kärnten.
+          <span>{` It's my life!`}</span>
+        </p>
+      </div>
       {isLoading ? (
         <div
           style={{
@@ -104,7 +116,7 @@ export default function Home(props) {
       ) : (
         <div id="top-of-scroll-list">
           {!isLoading && eventData && eventData['@graph'] && (
-            <ScrollingList items={eventData['@graph']} />
+            <ScrollingList items={eventData['@graph']} token={token} />
           )}
           <div className="margin-top-bottom flex-row-center">
             {eventData && eventData.links && eventData.links.prev && (

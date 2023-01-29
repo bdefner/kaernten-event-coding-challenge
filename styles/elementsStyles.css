@@ -29,6 +29,7 @@
   cursor: pointer;
   width: max-content;
   font-size: var(--font-small);
+  text-decoration: none;
 }
 
 .button > span {
@@ -99,6 +100,14 @@
   color: var(--blue);
 }
 
+.iconLink > img {
+  margin-right: var(--margin-tiny);
+}
+
+.iconLink > p {
+  text-decoration: none;
+}
+
 .icon {
   width: 16px;
   height: 16px;
@@ -165,6 +174,10 @@
 
 .event-list-image-wrap img {
   width: 100%;
+}
+
+.event-list-content-wrap {
+  margin-top: var(--margin-small);
 }
 
 .event-list-item-content-wrap h3 {
