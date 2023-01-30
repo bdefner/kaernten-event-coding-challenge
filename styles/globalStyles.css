@@ -11,6 +11,11 @@
   --padding-small: 15px;
   --padding-medium: 30px;
   --container-width: 1232px;
+  --font-small: 12px;
+  --font-main: 16px;
+  --font-bigger: 24px;
+  --font-biggest: 26px;
+  --box-shadow: 0px 0px 15px 0px rgba(51, 51, 51, 1);
 }
 
 * {
@@ -49,6 +54,10 @@ body {
 .container {
   max-width: 1240px;
   margin: auto;
+}
+
+.link-component-wrap {
+  text-decoration: none;
 }
 
 /* Header  */
@@ -115,6 +124,33 @@ body {
   overflow: hidden;
 }
 
+.filter-row-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--font-small);
+  margin-top: var(--margin-large);
+  margin-bottom: var(--margin-medium);
+}
+
+.filter-row-wrap > div {
+  height: 24px;
+  margin-right: var(--margin-small);
+  border: solid 1px;
+  border-color: var(--blue);
+}
+
+.filter-row-wrap:last-child {
+  margin-right: 0px;
+}
+
+.filter-selection-wrap {
+  padding: -100%;
+  display: flex;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
 .event-list-wrap {
   display: box;
 }
@@ -131,13 +167,13 @@ body {
 
 .slogan {
   color: var(--blue);
-  font-size: 48px;
+  font-size: 37px;
   margin: 0px;
 }
 
 .slogan span {
   font-family: 'Gunny Rewritten';
-  font-size: 58px;
+  font-size: 48px;
 }
 
 /* Event Page  */
@@ -145,6 +181,16 @@ body {
 .event-container {
   position: relative;
   width: 100%;
+}
+
+.image-loading-animation-wrap {
+  width: 300px;
+  height: 300px;
+  background-color: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: var(--margin-small);
 }
 
 .image-wrap-event-page {
@@ -155,6 +201,9 @@ body {
   margin-right: var(--margin-small);
 }
 
+.loading-animation-min {
+  width: 100px;
+}
 .image-wrap-event-page img {
   width: 100%;
 }
@@ -168,6 +217,12 @@ body {
 
 .event-page-description-wrap {
   width: 400px;
+}
+
+.event-page-menu-wrap {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--margin-small);
 }
 
 .sticky {

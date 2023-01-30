@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
+import loadingAnimationMin from '../../public/icons/loading-min.gif';
+import handleIcsDownload from '../../utils/handleIcsDownload';
+import Button from '../components/Button';
 import LoadingAnimation from '../components/LoadingAnimation';
 
 export default function EventPage(props) {
@@ -12,6 +15,7 @@ export default function EventPage(props) {
   console.log('token: ', token);
 
   const [isLoading, setIsLoading] = useState(true);
+  const [imageIsLoading, setImageIsLoading] = useState(true);
   const [eventData, setEventData] = useState();
   const [imageData, setImageData] = useState({});
   const [endpointForEventData, setEndpointForEventData] = useState(
@@ -36,7 +40,7 @@ export default function EventPage(props) {
   useEffect(() => {
     if (eventData) {
       console.log('eventData', eventData);
-      const imageId = 'cc8980ee-d067-4c4c-97ac-cf4e01e2037e';
+      const imageId = eventData['@graph'][0].image[0]['@id'];
       setEndpointForImageData(
         `https://data.carinthia.com/api/v4/universal/${imageId}?token=${token}`,
       );
@@ -46,6 +50,7 @@ export default function EventPage(props) {
           setImageData(response);
         })
         .then(() => {
+          setImageIsLoading(false);
           console.log('imageData', imageData);
         });
     }
@@ -62,6 +67,16 @@ export default function EventPage(props) {
             style={{ display: 'flex', position: 'relative' }}
           >
             <div className="sticky">
+              {imageIsLoading && (
+                <div className="image-loading-animation-wrap">
+                  <img
+                    src={loadingAnimationMin}
+                    alt=""
+                    className="loading-animation-min"
+                  />
+                </div>
+              )}
+
               {imageData &&
                 imageData['@graph'] &&
                 imageData['@graph'][0] &&
@@ -75,6 +90,23 @@ export default function EventPage(props) {
                 )}
             </div>
             <div>
+              <div className="event-page-menu-wrap">
+                <Link to="/" className="link-component-wrap">
+                  <Button type="bluePrimary" text="zurück" />
+                </Link>
+                <div
+                  onClick={() => {
+                    handleIcsDownload(props);
+                  }}
+                >
+                  <Button
+                    type="iconLink"
+                    iconType="download"
+                    span={''}
+                    text={'in meinen Kalender speichern'}
+                  />
+                </div>
+              </div>
               <div
                 className="event-page-description-wrap"
                 dangerouslySetInnerHTML={{
@@ -83,8 +115,6 @@ export default function EventPage(props) {
               ></div>
             </div>
           </div>
-
-          <Link to="/">Back to homepage</Link>
         </div>
       )}
     </>

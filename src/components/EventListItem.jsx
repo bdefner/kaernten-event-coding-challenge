@@ -1,45 +1,10 @@
 import moment from 'moment-timezone';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import iconCalendar from '../../public/icons/calendar.png';
 import iconPin from '../../public/icons/pin.png';
+import handleIcsDownload from '../../utils/handleIcsDownload';
 import Button from './Button';
-
-function handleIcsDownload(props) {
-  // Convert the date strings to valid timezone identifiers
-  const startDate = moment
-    .tz(props.startDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ', 'UTC')
-    .format('YYYYMMDDTHHmmss');
-  const endDate = moment
-    .tz(props.endDate, 'YYYY-MM-DDTHH:mm:ss.SSSZ', 'UTC')
-    .format('YYYYMMDDTHHmmss');
-  const timezone = 'Europe/Vienna';
-
-  // Create the .ics file content
-  const icsData = `BEGIN:VCALENDAR
-VERSION:2.0
-BEGIN:VEVENT
-SUMMARY:${props.title}
-DTSTART;TZID=${timezone}:${startDate}
-DTEND;TZID=${timezone}:${endDate}
-LOCATION:${props.location}
-END:VEVENT
-END:VCALENDAR`;
-
-  // Create a Blob object with the .ics file content
-  const blob = new Blob([icsData], { type: 'text/calendar' });
-
-  // Create a URL for the Blob object
-  const url = URL.createObjectURL(blob);
-
-  // Create an a element
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `${props.title}.ics`;
-
-  // Simulate a click on the a element to trigger the download
-  a.click();
-}
 
 function convertDateString(dateString) {
   const date = new Date(dateString);
@@ -54,8 +19,22 @@ export default function EventListItem(props) {
   const startDate = convertDateString(props.startDate);
   const endDate = convertDateString(props.endDate);
   const [isCollapsed, setIsCollapsed] = useState(true);
+  const [locationData, setLocationData] = useState();
+  const [locationEndpoint, setLocationEndpoint] = useState(
+    `https://data.carinthia.com/api/v4/universal/${props.locationId}?token=9962098a5f6c6ae8d16ad5aba95afee0`,
+  );
 
-  const id = 'a11762cc-a896-47db-b344-83fa329cd6c4';
+  useEffect(() => {
+    fetch(locationEndpoint, {})
+      .then((response) => response.json())
+      .then((response) => {
+        setLocationData(response);
+      })
+      .then(() => {
+        console.log('locationData', locationData);
+      })
+      .catch((error) => console.log(error));
+  }, [locationEndpoint]);
 
   return (
     <div className="event-list-item-element">
@@ -69,9 +48,31 @@ export default function EventListItem(props) {
             <img src={iconCalendar} alt="" className="icon" />
             <p>{`${startDate.date} - ${startDate.time}`}</p>
           </div>
-          <div className="event-list-item-date-wrap">
-            <img src={iconPin} alt="" className="icon" />
-            <p>location</p>
+          <div
+            className="event-list-item-date-wrap"
+            id="location"
+            onClick={() =>
+              window.open(
+                `https://www.openstreetmap.org/#map=18/${locationData['@graph'][0].geo.latitude}/${locationData['@graph'][0].geo.longitude}`,
+              )
+            }
+            style={{ cursor: 'pointer' }}
+          >
+            {locationData &&
+              locationData['@graph'] &&
+              locationData['@graph'][0].address &&
+              locationData['@graph'][0].address.addressLocality &&
+              locationData['@graph'][0].name && (
+                <>
+                  <img src={iconPin} alt="" className="icon" />
+                  <p>
+                    {' '}
+                    {locationData['@graph'][0].address.addressLocality}
+                    {', '}
+                    {locationData['@graph'][0].name}
+                  </p>
+                </>
+              )}
           </div>
         </div>
         <div style={{ display: 'flex' }}>
@@ -100,6 +101,7 @@ export default function EventListItem(props) {
             <div>
               {/* -> !!!Attention!!! This has to be improved!! I did this as a quick fix, assuming that the token is unproblematic to be exposed in the the URL, which might not be the case! Also, the URL is terrible to read. A better sollution might be using the UseContext Hook. But, from the way I build the component structure, I realized that this would need some rebuild in order to make it work, even if the URL get's accessed directly. Since this takes time, I temporarly go with this solution  */}
               <Link
+                className="link-component-wrap"
                 to={`/event/${props.slug}?id=${props.id}&token=${props.token}`}
               >
                 <Button

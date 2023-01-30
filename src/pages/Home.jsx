@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import grid from '../../public/icons/grid.png';
+import list from '../../public/icons/list.png';
 import Button from '../components/Button';
 import EventListItem from '../components/EventListItem';
+import FilterItem from '../components/FilterItem';
 import Hero from '../components/Hero';
 import LoadingAnimation from '../components/LoadingAnimation';
 
@@ -38,11 +41,12 @@ const ScrollingList = ({ items, token }) => {
             title={item.name}
             thumbnailUrl={item.image[0].thumbnailUrl}
             caption={item.image[0].caption}
-            startDate={'2023-01-28T20:00:00.000+01:00'}
-            endDate={'2023-01-28T20:00:00.000+01:00'}
+            startDate={item.startDate}
+            endDate={item.endDate}
             description={item.description}
             slug={item['dc:slug']}
             token={token}
+            locationId={item.location[0]['@id']}
           />
         </div>
       ))}
@@ -52,6 +56,9 @@ const ScrollingList = ({ items, token }) => {
 
 export default function Home(props) {
   const [isLoading, setIsLoading] = useState(true);
+  const [displayListFiler, setDisplayListFilter] = useState('expand-list');
+  const [locationFilter, setLocationFilter] = useState();
+  const [dateFilter, setDateFilter] = useState();
   const [eventData, setEventData] = useState();
   const [currentEndpoint, setCurrentEndpoint] = useState(
     'https://data.carinthia.com/api/v4/endpoints/557ea81f-6d65-6476-9e01-d196112514d2?include=image&token=9962098a5f6c6ae8d16ad5aba95afee0',
@@ -101,6 +108,44 @@ export default function Home(props) {
           Kärnten.
           <span>{` It's my life!`}</span>
         </p>
+      </div>
+      <div className="filter-row-wrap">
+        <div className="filter-selection-wrap">
+          <div onClick={() => setDisplayListFilter('expand-list')}>
+            <FilterItem
+              icon={list}
+              active={displayListFiler === 'expand-list' && true}
+            />
+          </div>
+          <div onClick={() => setDisplayListFilter('list')}>
+            <FilterItem
+              icon={grid}
+              active={displayListFiler === 'list' && true}
+            />
+          </div>
+        </div>
+        <div className="filter-selection-wrap">
+          <div onClick={() => setLocationFilter('')}>
+            <FilterItem text="Ganz Kärnten" active={!locationFilter && true} />
+          </div>
+          <div div onClick={() => setLocationFilter('Klagenfurt')}>
+            <FilterItem
+              text="Klagenfurt"
+              active={locationFilter === 'Klagenfurt' && true}
+            />
+          </div>
+        </div>
+        <div className="filter-selection-wrap">
+          <div div onClick={() => setDateFilter('')}>
+            <FilterItem text="Ab heute" active={!dateFilter && true} />
+          </div>
+          <div onClick={() => setDateFilter('weekend')}>
+            <FilterItem
+              text="Dieses Wochenende"
+              active={dateFilter === 'weekend' && true}
+            />
+          </div>
+        </div>
       </div>
       {isLoading ? (
         <div

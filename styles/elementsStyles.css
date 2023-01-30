@@ -148,6 +148,37 @@
   }
 }
 
+/* Filter Element */
+
+.filter-item {
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 var(--padding-small) 0 var(--padding-small);
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.filter-item p {
+  margin: 0px;
+}
+
+.filter-item img {
+  margin: 0px;
+  height: var(--font-small);
+  width: var(--font-small);
+}
+
+.active {
+  background-color: var(--blue);
+  color: white;
+}
+
+.active img {
+  filter: invert(1);
+}
+
 /* Event List Item */
 
 .event-list-item-element {
