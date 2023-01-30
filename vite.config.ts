@@ -9,13 +9,12 @@ export default defineConfig({
     rollupReplace({
       preventAssignment: true,
       values: {
-        DEV: JSON.stringify(true),
+        __DEV__: JSON.stringify(true),
         'process.env.NODE_ENV': JSON.stringify('development'),
       },
     }),
     react(),
   ],
-  outDir: './build',
   resolve: process.env.USE_SOURCE
     ? {
         alias: {
